@@ -33,6 +33,7 @@ public interface PaymentRepository extends JpaRepository<PaymentEntity, Long> {
                 join flight fl 
                 on fl.id = pa.flight_id
                 where cus.name like %:keyword%
+                order by pa.created_date desc
             """
             ,nativeQuery = true
     )
@@ -42,7 +43,8 @@ public interface PaymentRepository extends JpaRepository<PaymentEntity, Long> {
             value = """
                 select pa.* from payment_entity pa
                 where datediff(pa.created_date,:from) >= 0 
-                and datediff(pa.created_date,:to) <= 0;
+                and datediff(pa.created_date,:to) <= 0
+                order by pa.created_date desc;
             """
             ,nativeQuery = true
     )
@@ -109,6 +111,7 @@ public interface PaymentRepository extends JpaRepository<PaymentEntity, Long> {
             value = """
             select * from payment_entity pa
             where pa.customer_id = :id
+            order by pa.created_date desc
             """,
             nativeQuery = true
     )
@@ -118,6 +121,7 @@ public interface PaymentRepository extends JpaRepository<PaymentEntity, Long> {
             value = """
             select * from payment_entity pa
             where pa.flight_id = :id
+            order by pa.created_date desc
             """,
             nativeQuery = true
     )
