@@ -97,13 +97,13 @@ public class TicketServiceImpl implements ITicketService {
             ticketEntities.add(ticketEntity);
         });
 
-
-
         final List<TicketEntity> tickets = ticketRepository.saveAll(ticketEntities);
-
+        savedPayment.setTotal(total.get());
         savedPayment.setTicket(tickets);
 
-        return PaymentDto.fromEntity(savedPayment);
+        final PaymentEntity updatedTotalPayment = paymentRepository.save(savedPayment);
+
+        return PaymentDto.fromEntity(updatedTotalPayment);
     }
 
     @Override
